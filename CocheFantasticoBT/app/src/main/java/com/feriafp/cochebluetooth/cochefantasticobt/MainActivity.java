@@ -22,6 +22,9 @@ import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 public class MainActivity extends Activity {
 
+    int giro=0, velocidad=0;
+    final int IZQ_MIN = 0, DRCH_MIN = 1024, RECTO = 512;
+    final int AV_MIN = 155, AV_MAX = 255, RET_MIN = AV_MIN * -1, RET_MAX = AV_MAX * -1;
     Button btnOn, btnOff;
     TextView txtArduino, txtString, txtStringLength, sensorView0, sensorView1, sensorView2, sensorView3;
     TextView txtSendorLDR;
@@ -63,7 +66,26 @@ public class MainActivity extends Activity {
         joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
-                // do whatever you want
+
+                if (strength == 0){
+                    //TODO velocidad = 0 PARAR
+                }else if(0 <= angle && angle <= 90){
+                    giro = (angle * RECTO)/90 ;
+                    velocidad = (strength * AV_MAX)/100;
+                }else if(90 < angle && angle <= 180){
+                    giro = (angle * RECTO)/180;
+                    velocidad = (strength * AV_MAX)/100;
+                }else if( 180< angle && angle <= 270){
+                    giro = (angle * RECTO)/270;
+                    velocidad = (strength * RET_MAX)/100;
+                }else if(270 < angle && angle <= 360){
+                    giro = (angle * RECTO)/360;
+                    velocidad = (strength * RET_MAX)/100;
+                }
+
+                if (strength != 0){
+                    //TODO enviar velocidad - giro
+                }
             }
         });
 
@@ -108,7 +130,7 @@ public class MainActivity extends Activity {
 
 
         // Set up onClick listeners for buttons to send 1 or 0 to turn on/off LED
-        btnOff.setOnClickListener(new OnClickListener() {
+        /*btnOff.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 mConnectedThread.write("2");    // Send "0" via Bluetooth
                 Toast.makeText(getBaseContext(), "Apagar el LED", Toast.LENGTH_SHORT).show();
@@ -120,7 +142,7 @@ public class MainActivity extends Activity {
                 mConnectedThread.write("1");    // Send "1" via Bluetooth
                 Toast.makeText(getBaseContext(), "Encender el LED", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
 
 
