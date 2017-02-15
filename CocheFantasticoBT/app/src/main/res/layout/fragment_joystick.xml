@@ -1,0 +1,24 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#cccccc"
+    tools:context="com.feriafp.cochebluetooth.cochefantasticobt.fragmnets.JoystickFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <io.github.controlwear.virtual.joystick.android.JoystickView
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            custom:JV_buttonColor="@color/colorAccent"
+            custom:JV_borderColor="@color/colorPrimaryDark"
+            custom:JV_backgroundColor="@color/colorPrimary"
+            custom:JV_borderWidth="4dp"
+            custom:JV_fixedCenter="false"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+</FrameLayout>

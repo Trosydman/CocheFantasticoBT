@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.feriafp.cochebluetooth.cochefantasticobt.MainActivity"
+    android:orientation="horizontal">
+
+    <!--Button
+        android:id="@+id/buttonOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LED ON" />
+
+    <Button
+        android:id="@+id/buttonOff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LED OFF" />
+
+    <TextView
+        android:id="@+id/sensorView0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/sensorView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/sensorView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/sensorView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <io.github.controlwear.virtual.joystick.android.JoystickView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:JV_buttonColor="#FF6E40"
+        custom:JV_borderColor="#00796B"
+        custom:JV_backgroundColor="#009688"
+        custom:JV_borderWidth="4dp"
+        custom:JV_fixedCenter="false"
+        android:id="@+id/joystickView" /-->
+
+
+</LinearLayout>
