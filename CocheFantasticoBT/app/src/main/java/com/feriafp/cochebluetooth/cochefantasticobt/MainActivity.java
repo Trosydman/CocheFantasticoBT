@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -21,6 +22,8 @@ import java.util.UUID;
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 public class MainActivity extends Activity {
+
+
 
     int giro=0, velocidad=0;
     final int IZQ_MIN = 0, DRCH_MIN = 1024, RECTO = 512;
@@ -68,7 +71,8 @@ public class MainActivity extends Activity {
             public void onMove(int angle, int strength) {
 
                 if (strength == 0){
-                    //TODO velocidad = 0 PARAR
+                    mConnectedThread.write(AV_MIN+";"+giro);    // Send "0" via Bluetooth
+                    //Toast.makeText(getBaseContext(), "Quietor!", Toast.LENGTH_SHORT).show();
                 }else if(0 <= angle && angle <= 90){
                     giro = (angle * RECTO)/90 ;
                     velocidad = (strength * AV_MAX)/100;
@@ -84,10 +88,13 @@ public class MainActivity extends Activity {
                 }
 
                 if (strength != 0){
-                    //TODO enviar velocidad - giro
+                          mConnectedThread.write(velocidad+";"+giro);    // Send "0" via Bluetooth
+                    //Toast.makeText(getBaseContext(), "Moviendo"+velocidad+";"+giro, Toast.LENGTH_SHORT).show();
                 }
+                Log.i("velocidad: ", velocidad+"");
+                Log.i("giro: ", giro+"");
             }
-        });
+        },1);
 
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
