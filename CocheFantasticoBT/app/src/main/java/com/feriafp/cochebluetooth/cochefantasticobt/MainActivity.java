@@ -190,10 +190,10 @@ public class MainActivity extends Activity {
                     swichtTrasero.setVisibility(View.GONE);
                     currentT = ROJO;
 
-                }
+                } enviarDatos();
             }
 
-            enviarDatos();
+
         });
 
 
@@ -210,10 +210,10 @@ public class MainActivity extends Activity {
                     spinnerInterior.setVisibility(View.GONE);
                     currentI = APAGADO;
 
-                }
+                }enviarDatos();
             }
 
-            enviarDatos();
+
         });
 
         spinnerDelantero.setOnItemClickListener(new AdapterView.OnItemClickListener() {
