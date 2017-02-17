@@ -3,4 +3,22 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="Spinner_color_1">
+        <item>Color</item>
+        <item>Rojo</item>
+        <item>Verde</item>
+        <item>Naranja</item>
+        <item>Azul</item>
+        <item>Morado</item>
+        <item>Blanco</item>
+    </string-array>
+
+    <string-array name="Spinner_color_2">
+        <item>Color</item>
+        <item>Rojo</item>
+        <item>Verde/azul</item>
+        <item>Blanco</item>
+    </string-array>
+
 </resources>

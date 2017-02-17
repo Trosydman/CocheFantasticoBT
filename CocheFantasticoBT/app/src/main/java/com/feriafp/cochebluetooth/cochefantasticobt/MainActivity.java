@@ -7,10 +7,16 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,21 +25,23 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
-import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 public class MainActivity extends Activity {
 
 
-
-    int giro=0, velocidad=0;
-    final int IZQ_MIN = 0, DRCH_MIN = 1024, RECTO = 512;
+    int giro = 0, velocidad = 0;
+    final int IZQ_MIN = -155, IZQ_MAX = -255, DRCH_MIN = 155, DRCH_MAX = 255, RECTO = 205;
     final int AV_MIN = 155, AV_MAX = 255, RET_MIN = AV_MIN * -1, RET_MAX = AV_MAX * -1;
+    final int APAGADO = 0, ROJO = 1, VERDE = 2, NARANJA = 3, AZUL = 4, MORADO = 5, BLANCO = 6, FIESTA = 7, EMERGENCIA = 8;
+    int currentD = APAGADO, currentI = APAGADO, currentT = APAGADO;
     Button btnOn, btnOff;
     TextView txtArduino, txtString, txtStringLength, sensorView0, sensorView1, sensorView2, sensorView3;
     TextView txtSendorLDR;
     Handler bluetoothIn;
-    JoystickView joystick;
-
+    Spinner spinnerDelantero, spinnerTrasero, spinnerInterior;
+    SeekBar barraPotencia, barraGiro;
+    Switch swichtDelantero, swichtTrasero, swichtInterior;
+    ImageButton btn_emergency, btn_party;
     final int handlerState = 0;             //used to identify handler message
     private BluetoothAdapter btAdapter = null;
     private BluetoothSocket btSocket = null;
@@ -53,6 +61,265 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
+        spinnerDelantero = (Spinner) findViewById(R.id.spinner_delantero);
+        spinnerTrasero = (Spinner) findViewById(R.id.spinner_trasero);
+        spinnerInterior = (Spinner) findViewById(R.id.spinner_interior);
+        barraPotencia = (SeekBar) findViewById(R.id.seekbar_potencia);
+        barraGiro = (SeekBar) findViewById(R.id.seekbar_giro);
+        swichtDelantero = (Switch) findViewById(R.id.switch_delanteras);
+        swichtInterior = (Switch) findViewById(R.id.switch_interiores);
+        swichtTrasero = (Switch) findViewById(R.id.switch_traseras);
+        btn_emergency = (ImageButton) findViewById(R.id.btn_emergency);
+        btn_party = (ImageButton) findViewById(R.id.btn_partyJard);
+
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.Spinner_color_1, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinnerDelantero.setAdapter(adapter);
+
+
+        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this,
+                R.array.Spinner_color_1, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinnerInterior.setAdapter(adapter3);
+
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+                R.array.Spinner_color_2, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinnerTrasero.setAdapter(adapter2);
+
+
+        barraGiro.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if (i >= 40 || i <= 60) {
+                    giro = 0;
+                } else {
+                    if (i > 50) {
+                        i -= 50;
+                        giro = i * 50 / DRCH_MAX;
+                    } else {
+                        giro = i * 50 / IZQ_MIN;
+
+                    }
+
+                }
+                enviarDatos();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        barraPotencia.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                if (i >= 40 || i <= 60) {
+                    velocidad = 0;
+                } else {
+                    if (i > 50) {
+                        i -= 50;
+                        giro = i * 50 / RET_MAX;
+                    } else {
+                        giro = i * 50 / AV_MAX;
+
+                    }
+
+                    enviarDatos();
+
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+        swichtDelantero.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+
+                    spinnerDelantero.setVisibility(View.VISIBLE);
+                    currentD = BLANCO;
+
+
+                } else {
+                    spinnerDelantero.setVisibility(View.GONE);
+                    currentD = APAGADO;
+
+                }
+                enviarDatos();
+            }
+        });
+
+
+        swichtTrasero.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+
+                    swichtTrasero.setVisibility(View.VISIBLE);
+                    currentT = ROJO;
+
+
+                } else {
+                    swichtTrasero.setVisibility(View.GONE);
+                    currentT = ROJO;
+
+                }
+            }
+
+            enviarDatos();
+        });
+
+
+        swichtInterior.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+
+                    spinnerInterior.setVisibility(View.VISIBLE);
+                    currentI = NARANJA;
+
+
+                } else {
+                    spinnerInterior.setVisibility(View.GONE);
+                    currentI = APAGADO;
+
+                }
+            }
+
+            enviarDatos();
+        });
+
+        spinnerDelantero.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case ROJO:
+                        currentD = ROJO;
+                        break;
+                    case VERDE:
+                        currentD = VERDE;
+                        break;
+                    case NARANJA:
+                        currentD = NARANJA;
+                        break;
+
+                    case AZUL:
+                        currentD = AZUL;
+                        break;
+                    case MORADO:
+                        currentD = MORADO;
+                        break;
+
+                    case BLANCO:
+                        currentD = BLANCO;
+                        break;
+
+                }
+
+            }
+        });
+
+
+        spinnerInterior.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case ROJO:
+                        currentD = ROJO;
+                        break;
+                    case VERDE:
+                        currentD = VERDE;
+                        break;
+                    case NARANJA:
+                        currentD = NARANJA;
+                        break;
+
+                    case AZUL:
+                        currentD = AZUL;
+                        break;
+                    case MORADO:
+                        currentD = MORADO;
+                        break;
+
+                    case BLANCO:
+                        currentD = BLANCO;
+                        break;
+
+                }
+                enviarDatos();
+
+            }
+        });
+
+        spinnerTrasero.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case ROJO:
+                        currentD = ROJO;
+                        break;
+                    case VERDE:
+                        currentD = VERDE;
+                        break;
+                    case BLANCO:
+                        currentD = BLANCO;
+                        break;
+
+                }
+                enviarDatos();
+
+            }
+        });
+
+        btn_emergency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentD = EMERGENCIA;
+                currentI = EMERGENCIA;
+                currentT = EMERGENCIA;
+                enviarDatos();
+            }
+
+        });
+        btn_party.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentD = FIESTA;
+                currentI = FIESTA;
+                currentT = FIESTA;
+                enviarDatos();
+            }
+
+        });
+
+
         //Link the buttons and textViews to respective views
         //btnOn = (Button) findViewById(R.id.buttonOn);
         //btnOff = (Button) findViewById(R.id.buttonOff);
@@ -65,13 +332,9 @@ public class MainActivity extends Activity {
 
         //txtSendorLDR = (TextView) findViewById(R.id.tv_sendorldr);
 
-        joystick = (JoystickView) findViewById(R.id.joystick_view);
-        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
-            @Override
-            public void onMove(int angle, int strength) {
 
-                if (strength == 0){
-                    mConnectedThread.write(AV_MIN+";"+giro);    // Send "0" via Bluetooth
+              /*  if (strength == 0){
+                    mConnectedThread.write(AV_MIN+","+giro+";");    // Send "0" via Bluetooth
                     //Toast.makeText(getBaseContext(), "Quietor!", Toast.LENGTH_SHORT).show();
                 }else if(0 <= angle && angle <= 90){
                     giro = (angle * RECTO)/90 ;
@@ -88,13 +351,13 @@ public class MainActivity extends Activity {
                 }
 
                 if (strength != 0){
-                          mConnectedThread.write(velocidad+";"+giro);    // Send "0" via Bluetooth
+                          mConnectedThread.write(velocidad+","+giro+";");    // Send "0" via Bluetooth
                     //Toast.makeText(getBaseContext(), "Moviendo"+velocidad+";"+giro, Toast.LENGTH_SHORT).show();
                 }
                 Log.i("velocidad: ", velocidad+"");
                 Log.i("giro: ", giro+"");
             }
-        },1);
+        },1);*/
 
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
@@ -115,7 +378,7 @@ public class MainActivity extends Activity {
                             String sensor2 = recDataString.substring(11, 15);
                             String sensor3 = recDataString.substring(16, 20);
 
-                            if(sensor0.equals("1.00"))
+                            if (sensor0.equals("1.00"))
                                 sensorView0.setText("Encendido"); //update the textviews with sensor values
                             else
                                 sensorView0.setText("Apagado"); //update the textviews with sensor values
@@ -155,7 +418,7 @@ public class MainActivity extends Activity {
 
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
 
-        return  device.createRfcommSocketToServiceRecord(BTMODULEUUID);
+        return device.createRfcommSocketToServiceRecord(BTMODULEUUID);
         //creates secure outgoing connecetion with BT device using UUID
     }
 
@@ -179,15 +442,12 @@ public class MainActivity extends Activity {
             Toast.makeText(getBaseContext(), "La creacción del Socket fallo", Toast.LENGTH_LONG).show();
         }
         // Establish the Bluetooth socket connection.
-        try
-        {
+        try {
             btSocket.connect();
         } catch (IOException e) {
-            try
-            {
+            try {
                 btSocket.close();
-            } catch (IOException e2)
-            {
+            } catch (IOException e2) {
                 //insert code to deal with this
             }
         }
@@ -200,11 +460,9 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
-        try
-        {
+        try {
             //Don't leave Bluetooth sockets open when leaving activity
             btSocket.close();
         } catch (IOException e2) {
@@ -215,7 +473,7 @@ public class MainActivity extends Activity {
     //Checks that the Android device Bluetooth is available and prompts to be turned on if off
     private void checkBTState() {
 
-        if(btAdapter==null) {
+        if (btAdapter == null) {
             Toast.makeText(getBaseContext(), "El dispositivo no soporta bluetooth", Toast.LENGTH_LONG).show();
         } else {
             if (btAdapter.isEnabled()) {
@@ -240,7 +498,8 @@ public class MainActivity extends Activity {
                 //Create I/O streams for connection
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
-            } catch (IOException e) { }
+            } catch (IOException e) {
+            }
 
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
@@ -263,6 +522,7 @@ public class MainActivity extends Activity {
                 }
             }
         }
+
         //write method
         public void write(String input) {
             byte[] msgBuffer = input.getBytes();           //converts entered String into bytes
@@ -270,10 +530,18 @@ public class MainActivity extends Activity {
                 mmOutStream.write(msgBuffer);                //write bytes over BT connection via outstream
             } catch (IOException e) {
                 //if you cannot write, close the application
-                Toast.makeText(getBaseContext(), "La Conexión fallo", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "La Conexión fallo", Toast.LENGTH_SHORT).show();
                 finish();
 
             }
         }
     }
+
+    //método para enviar datos
+    public void enviarDatos() {
+        mConnectedThread.write(velocidad + "," + giro + ";A" + currentD + "B" + currentI + "C" + currentT + "#");
+
+
+    }
+
 }
