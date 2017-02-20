@@ -52,14 +52,14 @@
 
         <SeekBar
             android:id="@+id/seekbar_potencia"
-            android:rotation="90"
+            android:rotation="270"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:progressDrawable="@drawable/seekbar_progress_custom"
             android:thumb="@drawable/seekbar_thumb_custom"
             android:alpha="0.8"
             android:max="100"
-            android:progress="75"
+            android:progress="50"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true" />
 
@@ -230,7 +230,7 @@
             android:thumb="@drawable/seekbar_thumb_custom"
             android:alpha="0.8"
             android:max="100"
-            android:progress="75"
+            android:progress="50"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>

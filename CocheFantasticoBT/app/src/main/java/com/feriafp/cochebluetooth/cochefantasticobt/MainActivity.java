@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -72,6 +73,8 @@ public class MainActivity extends Activity {
         btn_emergency = (ImageButton) findViewById(R.id.btn_emergency);
         btn_party = (ImageButton) findViewById(R.id.btn_partyJard);
 
+        //Poner los valores de las dos barras en el centro.
+
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.Spinner_color_1, android.R.layout.simple_spinner_item);
@@ -100,17 +103,24 @@ public class MainActivity extends Activity {
         barraGiro.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (i >= 40 || i <= 60) {
+
+                /*if (i >= 40 && i <= 60) {
                     giro = 0;
                 } else {
-                    if (i > 50) {
-                        i -= 50;
-                        giro = i * 50 / DRCH_MAX;
-                    } else {
-                        giro = i * 50 / IZQ_MIN;
-
+                    if (i > 60) {
+                        giro = i+155-40;
+                    } else if (i < 40){
+                        giro = (i *100 / 40) - 255;
                     }
+                    enviarDatos();
 
+                }*/
+                if (i >= 40 && i <= 60) {
+                    giro = 0;
+                } else if (i > 60) {
+                    giro = (i * 100 / 40);
+                } else if (i < 40){
+                    giro = (i *100 / 40) - 255;
                 }
                 enviarDatos();
             }
@@ -130,21 +140,27 @@ public class MainActivity extends Activity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
-                if (i >= 40 || i <= 60) {
+                /*if (i >= 40 && i <= 60) {
                     velocidad = 0;
                 } else {
-                    if (i > 50) {
-                        i -= 50;
-                        giro = i * 50 / RET_MAX;
-                    } else {
-                        giro = i * 50 / AV_MAX;
-
+                    if (i > 60) {
+                        velocidad = i+155-40;
+                    } else if (i < 40){
+                        velocidad = (i *100 / 40) - 255;
                     }
-
                     enviarDatos();
 
+                }*/
+                if (i >= 40 && i <= 60) {
+                    velocidad = 0;
+                } else if (i > 60) {
+                    velocidad = (i * 100 / 40) ;
+                } else if (i < 40){
+                    velocidad = (i *100 / 40) - 255;
                 }
+                enviarDatos();
             }
+
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -216,40 +232,9 @@ public class MainActivity extends Activity {
 
         });
 
-        spinnerDelantero.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinnerDelantero.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i) {
-                    case ROJO:
-                        currentD = ROJO;
-                        break;
-                    case VERDE:
-                        currentD = VERDE;
-                        break;
-                    case NARANJA:
-                        currentD = NARANJA;
-                        break;
-
-                    case AZUL:
-                        currentD = AZUL;
-                        break;
-                    case MORADO:
-                        currentD = MORADO;
-                        break;
-
-                    case BLANCO:
-                        currentD = BLANCO;
-                        break;
-
-                }
-
-            }
-        });
-
-
-        spinnerInterior.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
                     case ROJO:
                         currentD = ROJO;
@@ -276,24 +261,72 @@ public class MainActivity extends Activity {
                 enviarDatos();
 
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
         });
 
-        spinnerTrasero.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        spinnerInterior.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
                     case ROJO:
-                        currentD = ROJO;
+                        currentI = ROJO;
                         break;
                     case VERDE:
-                        currentD = VERDE;
+                        currentI = VERDE;
                         break;
+                    case NARANJA:
+                        currentI = NARANJA;
+                        break;
+
+                    case AZUL:
+                        currentI = AZUL;
+                        break;
+                    case MORADO:
+                        currentI = MORADO;
+                        break;
+
                     case BLANCO:
-                        currentD = BLANCO;
+                        currentI = BLANCO;
                         break;
 
                 }
                 enviarDatos();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        spinnerTrasero.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case ROJO:
+                        currentT = ROJO;
+                        break;
+                    case VERDE:
+                        currentT = VERDE;
+                        break;
+                    case BLANCO:
+                        currentT = BLANCO;
+                        break;
+
+                }
+                enviarDatos();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
@@ -539,7 +572,8 @@ public class MainActivity extends Activity {
 
     //método para enviar datos
     public void enviarDatos() {
-        mConnectedThread.write(velocidad + "," + giro + ";A" + currentD + "B" + currentI + "C" + currentT + "#");
+        Log.i("Datos para enviar","*"+velocidad + "," + giro + ";A" + currentD + "B" + currentI + "C" + currentT + "#" );
+        mConnectedThread.write("*"+velocidad + "," + giro + ";A" + currentD + "B" + currentI + "C" + currentT + "#");
 
 
     }
