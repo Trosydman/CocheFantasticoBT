@@ -70,8 +70,8 @@ public class MainActivity extends Activity {
         swichtDelantero = (Switch) findViewById(R.id.switch_delanteras);
         swichtInterior = (Switch) findViewById(R.id.switch_interiores);
         swichtTrasero = (Switch) findViewById(R.id.switch_traseras);
-        btn_emergency = (ImageButton) findViewById(R.id.btn_emergency);
-        btn_party = (ImageButton) findViewById(R.id.btn_partyJard);
+        //btn_emergency = (ImageButton) findViewById(R.id.btn_emergency);
+        //btn_party = (ImageButton) findViewById(R.id.btn_partyJard);
 
         //Poner los valores de las dos barras en el centro.
 
@@ -184,7 +184,7 @@ public class MainActivity extends Activity {
 
 
                 } else {
-                    spinnerDelantero.setVisibility(View.GONE);
+                    spinnerDelantero.setVisibility(View.INVISIBLE);
                     currentD = APAGADO;
 
                 }
@@ -198,15 +198,16 @@ public class MainActivity extends Activity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
 
-                    swichtTrasero.setVisibility(View.VISIBLE);
+                    spinnerTrasero.setVisibility(View.VISIBLE);
                     currentT = ROJO;
 
 
                 } else {
-                    swichtTrasero.setVisibility(View.GONE);
-                    currentT = ROJO;
+                    spinnerTrasero.setVisibility(View.INVISIBLE);
+                    currentT = APAGADO;
 
-                } enviarDatos();
+                }
+                enviarDatos();
             }
 
 
@@ -223,10 +224,11 @@ public class MainActivity extends Activity {
 
 
                 } else {
-                    spinnerInterior.setVisibility(View.GONE);
+                    spinnerInterior.setVisibility(View.INVISIBLE);
                     currentI = APAGADO;
 
-                }enviarDatos();
+                }
+                enviarDatos();
             }
 
 
@@ -331,26 +333,26 @@ public class MainActivity extends Activity {
             }
         });
 
-        btn_emergency.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentD = EMERGENCIA;
-                currentI = EMERGENCIA;
-                currentT = EMERGENCIA;
-                enviarDatos();
-            }
-
-        });
-        btn_party.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentD = FIESTA;
-                currentI = FIESTA;
-                currentT = FIESTA;
-                enviarDatos();
-            }
-
-        });
+        //btn_emergency.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View view) {
+        //        currentD = EMERGENCIA;
+        //        currentI = EMERGENCIA;
+        //        currentT = EMERGENCIA;
+        //        enviarDatos();
+        //    }
+//
+        //});
+        //btn_party.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View view) {
+        //        currentD = FIESTA;
+        //        currentI = FIESTA;
+        //        currentT = FIESTA;
+        //        enviarDatos();
+        //    }
+//
+        //});
 
 
         //Link the buttons and textViews to respective views

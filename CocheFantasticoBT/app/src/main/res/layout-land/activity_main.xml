@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    tools:context="com.feriafp.cochebluetooth.cochefantasticobt.MainActivity"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray">
+    android:background="@android:color/darker_gray"
+    android:orientation="horizontal"
+    tools:context="com.feriafp.cochebluetooth.cochefantasticobt.MainActivity">
 
     <!--Button
         android:id="@+id/buttonOn"
@@ -45,193 +45,252 @@
         custom:JV_fixedCenter="false"
         android:id="@+id/joystickView" /-->
     <RelativeLayout
-        android:layout_weight="2"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/texture_metal"
+            android:layout_margin="10dp">
+        </RelativeLayout>
 
         <SeekBar
             android:id="@+id/seekbar_potencia"
-            android:rotation="270"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:progressDrawable="@drawable/seekbar_progress_custom"
-            android:thumb="@drawable/seekbar_thumb_custom"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
             android:alpha="0.8"
             android:max="100"
             android:progress="50"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
-
-
-
-
+            android:progressDrawable="@drawable/seekbar_progress_custom"
+            android:rotation="270"
+            android:thumb="@drawable/seekbar_thumb_custom" />
     </RelativeLayout>
 
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:textSize="18sp"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/image_view_delanteras"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
 
-            android:text="Luz delantera"
-            android:textColor="@android:color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="34dp"
-            android:layout_marginTop="24dp"
-            android:id="@+id/text_view_delanteras"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+
+                android:src="@drawable/ic_delantera"
+                />
+            <TextView
+                android:id="@+id/text_view_delanteras"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_toRightOf="@id/image_view_delanteras"
+                android:layout_toLeftOf="@+id/switch_delanteras"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+
+                android:text="Luz delantera"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                />
+            <Switch
+                android:id="@+id/switch_delanteras"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+                />
+        </RelativeLayout>
+
+        <Spinner
+            android:id="@+id/spinner_delantero"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="invisible"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/image_view_interiores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+
+                android:src="@drawable/ic_interior2"
+                />
+
+            <TextView
+                android:id="@+id/text_view_interiores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_toRightOf="@id/image_view_interiores"
+                android:layout_toLeftOf="@+id/switch_interiores"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+
+                android:text="Luz interior"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                />
+
+            <Switch
+                android:id="@+id/switch_interiores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+                />
+
+        </RelativeLayout>
+
+        <Spinner
+            android:id="@+id/spinner_interior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="invisible"
             />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_delantera"
-            android:layout_below="@+id/text_view_delanteras"
-            android:layout_alignStart="@+id/text_view_delanteras"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/image_view_delanteras" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/image_view_delanteras"
-            android:layout_alignBottom="@+id/image_view_delanteras"
-            android:layout_toEndOf="@+id/text_view_interiores"
-            android:layout_marginStart="13dp"
-            android:id="@+id/switch_delanteras" />
+            <ImageView
+                android:id="@+id/image_view_traseras"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_interior2"
-            android:layout_below="@+id/text_view_interiores"
-            android:layout_alignStart="@+id/text_view_interiores"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/image_view_interiores" />
+                android:src="@drawable/ic_trasera"
+                />
 
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/image_view_interiores"
-            android:layout_alignBottom="@+id/image_view_interiores"
-            android:layout_toEndOf="@+id/text_view_interiores"
-            android:layout_marginStart="13dp"
-            android:id="@+id/switch_interiores" />
+            <TextView
+                android:id="@+id/text_view_traseras"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_trasera"
-            android:layout_below="@+id/text_view_traseras"
-            android:layout_alignStart="@+id/text_view_traseras"
-            android:layout_marginTop="12dp"
-            android:id="@+id/image_view_traseras" />
+                android:layout_toRightOf="@id/image_view_traseras"
+                android:layout_toLeftOf="@+id/switch_traseras"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
 
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/image_view_traseras"
-            android:layout_alignBottom="@+id/image_view_traseras"
-            android:layout_toEndOf="@+id/text_view_traseras"
-            android:layout_marginStart="13dp"
-            android:id="@+id/switch_traseras" />
+                android:textSize="18sp"
+                android:text="Luz trasera"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                />
+
+            <Switch
+                android:id="@+id/switch_traseras"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+                />
+
+        </RelativeLayout>
 
         <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/image_view_delanteras"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/spinner_delantero" />
-
-        <TextView
-            android:textSize="18sp"
-            android:text="Luz interior"
-            android:textColor="@android:color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
-            android:id="@+id/text_view_interiores"
-            android:layout_below="@+id/spinner_delantero"
-            android:layout_alignStart="@+id/image_view_delanteras" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner_interior"
-            android:layout_below="@+id/image_view_interiores"
-            android:layout_alignParentStart="true" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="17dp"
             android:id="@+id/spinner_trasero"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
 
-        <TextView
-            android:textSize="18sp"
-            android:text="Luz Trasera"
-            android:textColor="@android:color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_view_traseras"
-            android:layout_marginTop="19dp"
-            android:layout_below="@+id/image_view_interiores"
-            android:layout_alignStart="@+id/image_view_interiores" />
+            android:visibility="invisible"
+            />
+    </LinearLayout>
 
-    </RelativeLayout>
 
     <RelativeLayout
-        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/btn_partyJard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_party"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/texture_metal"
+            android:layout_margin="10dp">
+        </RelativeLayout>
 
-        <ImageButton
+        <!--ImageButton
             android:id="@+id/btn_emergency"
-            android:layout_gravity="center"
-            android:padding="10dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_hazard"
-            android:background="@color/colorPrimary"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/btn_partyJard"
+            android:layout_gravity="center"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/btn_partyJard" />
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="10dp"
+            android:src="@drawable/ic_hazard"
+
+            android:visibility="invisible" /-->
 
         <SeekBar
             android:id="@+id/seekbar_giro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:progressDrawable="@drawable/seekbar_progress_custom"
-            android:thumb="@drawable/seekbar_thumb_custom"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
             android:alpha="0.8"
             android:max="100"
             android:progress="50"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:progressDrawable="@drawable/seekbar_progress_custom"
+            android:thumb="@drawable/seekbar_thumb_custom" />
+
+        <!--ImageButton
+            android:id="@+id/btn_partyJard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_party"
+
+            android:visibility="invisible" /-->
     </RelativeLayout>
 </LinearLayout>
