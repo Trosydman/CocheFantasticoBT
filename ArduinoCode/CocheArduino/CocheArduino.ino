@@ -36,11 +36,15 @@ int currentSpeed =  0;
 int safetyTime = 7000;
 
 long timeMark,timeMark2;
+boolean tramaCompleta = false;
 String strRecibido = "";
 float fltVelocidad = 0.0;
 float fltGiro = 0.0;
 String strColor= "";
-boolean tramaCompleta = false;
+
+String delantera;
+String central;
+String trasera;
 
 ////////////
 
@@ -85,11 +89,12 @@ void loop() {
                 strRecibido=""; 
                 tramaCompleta = true;
            }*/
-           if (Serial.available()){    
-              char c = Serial.read();
+           char c;
+           if (Serial.available() && c !=(char)-1){    
+              c = Serial.read();
               //if(c == '*') {
                 //c = Serial.read();
-                while ( c != '#') {           //Hasta que el caracter sea intro
+                while ( c != '#' && c !=(char)-1) {           //Hasta que el caracter sea intro
                        Serial.print(c);
                        strRecibido = strRecibido + c ;
                         c = Serial.read();
@@ -100,23 +105,28 @@ void loop() {
               //}
               strRecibido = strRecibido.substring(strRecibido.indexOf("*"), strRecibido.indexOf("C")+2);
               Serial.println("----> "+strRecibido+" <----");
-                  tramaCompleta = true;
-                  fltVelocidad = strRecibido.substring(strRecibido.indexOf("*")+1,strRecibido.indexOf(",")).toFloat();// Aqui muestro cada par de dato separado en su textbox
-                  Serial.println(strRecibido.substring(strRecibido.indexOf("*")+1,strRecibido.indexOf(","))+" => "+fltVelocidad);
-                  fltGiro = strRecibido.substring(strRecibido.indexOf(",")+1,strRecibido.indexOf(";")).toFloat();
-                  Serial.print(strRecibido.substring(strRecibido.indexOf(",")+1,strRecibido.indexOf(";"))+" => "+ fltGiro);
-                  strColor = strRecibido.substring(strRecibido.indexOf(";")+1,strRecibido.length());
-                  Serial.println("//////////////");
-                  Serial.println(fltVelocidad);
-                  Serial.println("//////////////");
-                  Serial.println(fltGiro);
-                  Serial.println("//////////////");
-                  Serial.println(strColor);
-                  Serial.println("//////////////");
-                  Serial.println("//////////////");
+//              tramaCompleta = true;
+              fltVelocidad = strRecibido.substring(strRecibido.indexOf("*")+1,strRecibido.indexOf(",")).toFloat();// Aqui muestro cada par de dato separado en su textbox
+              Serial.println(strRecibido.substring(strRecibido.indexOf("*")+1,strRecibido.indexOf(","))+" => "+fltVelocidad);
+              fltGiro = strRecibido.substring(strRecibido.indexOf(",")+1,strRecibido.indexOf(";")).toFloat();
+              Serial.println(strRecibido.substring(strRecibido.indexOf(",")+1,strRecibido.indexOf(";"))+" => "+ fltGiro);
+              strColor = strRecibido.substring(strRecibido.indexOf(";")+1,strRecibido.length());
+              Serial.println("//////////////");
+              Serial.println(fltVelocidad);
+              Serial.println("//////////////");
+              Serial.println(fltGiro);
+              Serial.println("//////////////");
+              Serial.println(strColor);
+              Serial.println("//////////////");
+              Serial.println("//////////////");
+              delantera = strColor.substring(strColor.indexOf("A"),strColor.indexOf("B"));
+              central = strColor.substring(strColor.indexOf("B"),strColor.indexOf("C"));
+              trasera = strColor.substring(strColor.indexOf("C"),strColor.indexOf("C")+2);
+              Serial.println("D: "+delantera+"\nI: "+central+"\nT: "+trasera);
+           }
 
-           if (tramaCompleta){
-                tramaCompleta = false;
+//           if (tramaCompleta){
+//                tramaCompleta = false;
                 if(fltGiro < 0 ){
                     //fltGiro = fltGiro * 511 / 255;
                     fltGiro = -fltGiro;
@@ -158,10 +168,10 @@ void loop() {
                   tramaCompleta = false;
                 }
 
-                String delantera = strColor.substring(strColor.indexOf("A"),strColor.indexOf("B"));
-                String central = strColor.substring(strColor.indexOf("B"),strColor.indexOf("C"));
-                String trasera = strColor.substring(strColor.indexOf("C"),strColor.indexOf("C")+2);
-                Serial.println("D: "+delantera+"\nI:"+central+"\nT:"+trasera);
+//                String delantera = strColor.substring(strColor.indexOf("A"),strColor.indexOf("B"));
+//                String central = strColor.substring(strColor.indexOf("B"),strColor.indexOf("C"));
+//                String trasera = strColor.substring(strColor.indexOf("C"),strColor.indexOf("C")+2);
+//                Serial.println("D: "+delantera+"\nI:"+central+"\nT:"+trasera);
                 if(delantera == "A0"){
                     //Apagar luces delanteras
                      apagarLucesDelanteras();
@@ -238,8 +248,8 @@ void loop() {
                 }
             
                  
-            }
-        } else { //Si no llega ningun comando vamos a la posicion central y paramos el motor
+//            }
+/*        } else { //Si no llega ningun comando vamos a la posicion central y paramos el motor
             delay(25);
             if (!Serial.available()){
                 analogWrite(motorAvanzar, 0);
@@ -249,7 +259,8 @@ void loop() {
                 Serial.println("no recibe");
             }
         }
-    delay(25);  
+    delay(25);
+*/ 
 }
 
 
