@@ -572,8 +572,9 @@ public class MainActivity extends Activity {
 
     //método para enviar datos
     public void enviarDatos() {
-        Log.i("Datos para enviar","*"+velocidad + "," + giro + ";A" + currentD + "B" + currentI + "C" + currentT + "#" );
-        mConnectedThread.write("*"+velocidad + "," + giro + ";A" + currentD + "B" + currentI + "C" + currentT + "#");
+        String datosArduino = "*"+velocidad + "," + giro + ";A" + currentD + "B" + currentI + "C" + currentT + "#";
+        Log.i("Datos para enviar", datosArduino+datosArduino.length()+"/");
+        mConnectedThread.write(datosArduino+datosArduino.length()+"/");
 
 
     }

@@ -37,7 +37,9 @@ int safetyTime = 7000;
 
 long timeMark,timeMark2;
 boolean tramaCompleta = false;
+char c;
 String strRecibido = "";
+
 float fltVelocidad = 0.0;
 float fltGiro = 0.0;
 String strColor= "";
@@ -89,12 +91,12 @@ void loop() {
                 strRecibido=""; 
                 tramaCompleta = true;
            }*/
-           char c;
-           if (Serial.available() && c !=(char)-1){    
+           
+           if (Serial.available()){    
               c = Serial.read();
               //if(c == '*') {
                 //c = Serial.read();
-                while ( c != '#' && c !=(char)-1) {           //Hasta que el caracter sea intro
+                while ( c != '#') {           //Hasta que el caracter sea intro
                        Serial.print(c);
                        strRecibido = strRecibido + c ;
                         c = Serial.read();
@@ -103,8 +105,13 @@ void loop() {
                   //Serial.println();
                   delay(25);
               //}
+//              int checksum = strRecibido.substring(0, strRecibido.indexOf("/")).toInt();
               strRecibido = strRecibido.substring(strRecibido.indexOf("*"), strRecibido.indexOf("C")+2);
-              Serial.println("----> "+strRecibido+" <----");
+//              strRecibido = strRecibido.substring(strRecibido.indexOf("*"), checksum-1);
+              Serial.print(strRecibido.indexOf("*"));
+              Serial.print("-");
+              Serial.print(strRecibido.indexOf("C")+2);
+              Serial.println(" ----> "+strRecibido+" <----");
 //              tramaCompleta = true;
               fltVelocidad = strRecibido.substring(strRecibido.indexOf("*")+1,strRecibido.indexOf(",")).toFloat();// Aqui muestro cada par de dato separado en su textbox
               Serial.println(strRecibido.substring(strRecibido.indexOf("*")+1,strRecibido.indexOf(","))+" => "+fltVelocidad);
